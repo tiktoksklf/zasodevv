@@ -1,0 +1,210 @@
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zasodev AutoMind</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #111, #05050a);
+      color: white;
+      text-align: center;
+    }
+
+    header {
+      padding: 60px 20px 30px;
+    }
+
+    header h1 {
+      font-size: 3.2rem;
+      margin: 0;
+      font-weight: 800;
+      background: linear-gradient(to right, lime, cyan);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    header p {
+      color: #aaa;
+      font-size: 1.1rem;
+      margin-top: 12px;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
+
+    .navBtn {
+      background: limegreen;
+      color: black;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .navBtn:hover {
+      transform: scale(1.05);
+      background: #00ff88;
+    }
+
+    /* MAIN TOOL BOX */
+    .box {
+      margin: auto;
+      margin-top: 40px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      width: 90%;
+      max-width: 850px;
+      padding: 35px;
+      border-radius: 22px;
+      box-shadow: 0 0 35px rgba(0,255,120,0.08);
+    }
+
+    input {
+      width: 90%;
+      max-width: 650px;
+      padding: 16px;
+      border-radius: 16px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      margin-top: 20px;
+      background: #111;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 14px 35px;
+      border: none;
+      border-radius: 16px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .scanBtn {
+      background: limegreen;
+      color: black;
+    }
+
+    .scanBtn:hover {
+      transform: scale(1.03);
+      background: #00ff88;
+    }
+
+    /* RESULTS */
+    .result {
+      margin-top: 35px;
+      text-align: left;
+      background: rgba(0,0,0,0.35);
+      padding: 25px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    footer {
+      margin-top: 60px;
+      padding: 25px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    a {
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🚗 Zasodev AutoMind</h1>
+  <p>AI-powered car diagnostics — instant mechanic-style reports.</p>
+
+  <!-- NAVIGATION BUTTONS -->
+  <div class="navbar">
+    <a href="owner.html"><button class="navBtn">Owner</button></a>
+    <a href="about.html"><button class="navBtn">About Us</button></a>
+    <a href="updates.html"><button class="navBtn">Update Log</button></a>
+    <a href="https://instagram.com/" target="_blank">
+      <a href="https://www.instagram.com/bavr.performance" target="_blank">
+  <button class="navBtn">Instagram</button>
+</a>
+
+    </a>
+  </div>
+</header>
+
+<!-- MAIN TOOL -->
+<div class="box">
+  <h2>Describe Your Issue</h2>
+  <p style="color:#888;">Example: “engine shakes at idle and smells like gas”</p>
+
+  <input id="userInput" placeholder="Type your symptoms here...">
+
+  <br>
+
+  <button class="scanBtn" onclick="runScan()">
+    🤖 Run AutoMind AI Scan
+  </button>
+
+  <div id="output"></div>
+</div>
+
+<footer>
+  Zasodev AutoMind v1 — Built by Zasodev Dev Labs ⚡
+</footer>
+
+<script>
+/* AI SCAN ONLY */
+async function runScan() {
+  const input = document.getElementById("userInput").value;
+
+  if (!input) {
+    alert("Type your car issue first.");
+    return;
+  }
+
+  document.getElementById("output").innerHTML = `
+    <div class="result">
+      <p style="color:#aaa;">🤖 Running AutoMind AI Scan...</p>
+    </div>
+  `;
+
+  const res = await fetch(
+    "https://zasodev-automind-ai.anthonylogalbo38.workers.dev/",
+    {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ text: input })
+    }
+  );
+
+  const data = await res.json();
+
+  document.getElementById("output").innerHTML = `
+    <div class="result">
+      <h3>🤖 AutoMind Diagnostic Report</h3>
+      <p style="line-height:1.6;color:#ddd;">
+        ${data.reply.replace(/\n/g,"<br>")}
+      </p>
+    </div>
+  `;
+}
+</script>
+
+
+
+</body></html>
